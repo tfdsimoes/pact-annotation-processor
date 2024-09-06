@@ -1,6 +1,6 @@
 # Pact DSL Builder
 
-[![Original github repo](https://github.com/sngular/pact-annotation-processor)
+[Original github repo](https://github.com/sngular/pact-annotation-processor)
 
 TODO: Add code quality
 TODO: Add code repository

@@ -1,6 +1,9 @@
 # Pact DSL Builder
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/67f7406f9b79477faae81cc93ed79395)](https://app.codacy.com/gh/sngular/pact-annotation-processor/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)[![Maven Central](https://img.shields.io/maven-central/v/com.sngular/pact-annotation-processor?label=Maven%20Central)](https://central.sonatype.com/artifact/com.sngular/pact-annotation-processor)
+[![Original github repo](https://github.com/sngular/pact-annotation-processor)
+
+TODO: Add code quality
+TODO: Add code repository
 
 This is a helper tool for Contract Testing with [Pact](https://docs.pact.io/).
 An annotation processor designed to generate DslPart objects for the body definitions based on annotations included in your model classes.
@@ -33,12 +36,12 @@ Specially useful when defining body validations for interactions with complex mo
 - Having inside your project a verification library of your choice to have the `@Max` and `@Min` annotations available, such as [Jakarta](https://central.sonatype.com/artifact/jakarta.validation/jakarta.validation-api), [Spring Boot](https://central.sonatype.com/artifact/org.springframework.boot/spring-boot-starter-validation) or similar.
 
 ### Compatibility with pact-jvm
-
 |                                   Pact DSL Builder                                   |  Pact JVM  |
 |:------------------------------------------------------------------------------------:|:----------:|
 | [1.1.0](https://central.sonatype.com/artifact/com.sngular/pact-annotation-processor/1.1.0) |   +4.6.3   |
 | [1.1.7](https://central.sonatype.com/artifact/com.sngular/pact-annotation-processor) |   +4.6.3   |
 | [1.2.0](https://central.sonatype.com/artifact/com.sngular/pact-annotation-processor/1.1.0) |   +4.6.3   |
+
 ### Configuration
 
 The only configuration needed for starting using the library is adding the dependency to your build automation tool:
@@ -231,27 +234,17 @@ void getAddressTest(MockServer mockServer) {
 
 ## Roadmap
 
-Roadmap available under [GitHub Projects section](https://github.com/orgs/sngular/projects/2).
-
-See the [open issues](https://github.com/sngular/pact-annotation-processor/issues) for a full list of proposed features (and known issues).
+TODO: Define roadmpa
 
 ## Contributing
 
 Contributions are what makes the open source community special. Any contributions you make are greatly appreciated.
 
 If you have a suggestion that would make this library better,
-please [review our contributing guidelines](https://github.com/sngular/pact-annotation-processor/blob/main/CONTRIBUTING.md).
+please [review our contributing guidelines](https://github.com/tfdsimoes/pact-annotation-processor/blob/main/CONTRIBUTING.md).
 
-Or you can simply [open a feature request issue](https://github.com/sngular/pact-annotation-processor/issues/new/choose).
+Or you can simply [open a feature request issue](https://github.com/tfdsimoes/pact-annotation-processor/issues/new/choose).
 
 ## License
 
 Distributed under Mozilla Public License Version 2.0. See [LICENSE](https://github.com/sngular/pact-annotation-processor/blob/main/LICENSE) for more information
-
-## Contact
-
-OS3 team: [os3@sngular.com](mailto:os3@sngular.com)
-
-Sngular - [GitHub Org](https://github.com/sngular)
-
-<https://www.sngular.com>

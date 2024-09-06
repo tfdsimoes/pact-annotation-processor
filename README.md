@@ -3,10 +3,10 @@
 [Original github repo](https://github.com/sngular/pact-annotation-processor)
 
 TODO: Add code quality
+
 TODO: Add code repository
 
-This is a helper tool for Contract Testing with [Pact](https://docs.pact.io/).
-An annotation processor designed to generate DslPart objects for the body definitions based on annotations included in your model classes.
+This is a helper tool for Contract Testing with [Pact](https://docs.pact.io/). An annotation processor designed to generate DslPart objects for the body definitions based on annotations included in your model classes.
 
 The focus is to simplify JVM contract testing implementation, minimizing the amount of boilerplate code needed.
 
@@ -25,7 +25,6 @@ Specially useful when defining body validations for interactions with complex mo
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
 
 ## Getting Started
 
@@ -234,7 +233,7 @@ void getAddressTest(MockServer mockServer) {
 
 ## Roadmap
 
-TODO: Define roadmpa
+TODO: Define roadmap
 
 ## Contributing
 

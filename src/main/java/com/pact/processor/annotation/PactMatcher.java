@@ -23,7 +23,8 @@ public @interface PactMatcher {
     PactMatcherKind value() default PactMatcherKind.AUTO;
 
     /**
-     * Optional matcher example; takes precedence over {@link PactExample#value()}.
+     * Optional matcher example. If {@link PactExample#value()} is also supplied, both values must
+     * agree; conflicting values are reported as compile-time errors.
      *
      * @return the example, or an empty string when no matcher example is supplied
      */

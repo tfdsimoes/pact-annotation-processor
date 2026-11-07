@@ -8,7 +8,7 @@ import java.util.*;
 public final class ArrayDatesBuilder {
   public DslPart build() {
     return LambdaDsl.newJsonArray(array -> {
-      array.stringValue("2024-01-02");
+      array.date("yyyy-MM-dd", java.util.Date.from(java.time.LocalDate.parse("2024-01-02", java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd", java.util.Locale.ROOT)).atStartOfDay(java.time.ZoneOffset.UTC).toInstant()));
     }).build();
   }
 

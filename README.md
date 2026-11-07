@@ -160,7 +160,7 @@ public class ArrayBody {
 | `@PactExclude` | Field | Excludes the field from the Pact body and expected instance, and skips validation of that field. |
 | `@PactMin`, `@PactMax` | Numeric field | Optional `long` thresholds that constrain or select the generated example only; they do not add a Pact numeric range matcher. Fractional thresholds cannot be expressed, including for `float`, `double`, or `BigDecimal` fields. |
 
-When both `@PactMin` and `@PactMax` are present, the minimum must not exceed the maximum. A numeric example supplied by `@PactExample` or `@PactMatcher.example` must fall within those bounds. For temporal formats, precedence is `@PactExample.format`, then `@PactMatcher.format`, then the type-specific default. Exclusion takes precedence over other field validation.
+When both `@PactMin` and `@PactMax` are present, the minimum must not exceed the maximum. A numeric example supplied by `@PactExample` or `@PactMatcher.example` must fall within those bounds. If both annotations supply an example, their values must agree or compilation fails. For temporal formats, precedence is `@PactExample.format`, then `@PactMatcher.format`, then the type-specific default. Exclusion takes precedence over other field validation.
 
 ### Scalar matcher compatibility
 

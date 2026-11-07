@@ -8,7 +8,9 @@ import java.util.*;
 public final class AdvancedOrderBuilder {
   public DslPart build() {
     return LambdaDsl.newJsonBody(body -> {
-      body.eachValueLike("sku-1", PactDslJsonRootValue.integerType((long) 1L));
+      body.object("quantities", map3 -> {
+        map3.eachValueLike("sku-1", PactDslJsonRootValue.integerType((long) 1L));
+      });
       body.date("created", "dd/MM/yyyy", java.time.LocalDate.parse("02/01/2024", java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy", java.util.Locale.ROOT)));
       body.integerType("adjustment", (int) (long) 1);
       body.minArrayLike("tags", 2, PactDslJsonRootValue.stringType("example"), 2);

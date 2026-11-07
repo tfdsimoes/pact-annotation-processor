@@ -134,17 +134,21 @@ final class PactDslSourceGenerator {
             TypeMirror mapValue = processor.typeArgument(type, 1);
             PactMapMatcher mapMatcher = field.getAnnotation(PactMapMatcher.class);
             String key = processor.quote(mapMatcher == null ? "key" : mapMatcher.keyExample());
+            String mapVariable = "map" + indent;
+            source.append(processor.spaces(indent)).append(variable).append(".object(").append(name).append(", ")
+                    .append(mapVariable).append(" -> {\n");
             if (processor.hasScalarType(mapValue) || processor.isEnum(mapValue)) {
-                source.append(processor.spaces(indent)).append(variable).append(".eachValueLike(").append(key).append(", ")
+                source.append(processor.spaces(indent + 1)).append(mapVariable).append(".eachValueLike(").append(key).append(", ")
                         .append(rootValueExpression(mapValue, field, indent)).append(");\n");
             } else {
                 TypeElement nested = (TypeElement) ((DeclaredType) mapValue).asElement();
                 String nestedVar = "value" + indent;
-                source.append(processor.spaces(indent)).append(variable).append(".eachValueLike(").append(key).append(", ")
+                source.append(processor.spaces(indent + 1)).append(mapVariable).append(".eachValueLike(").append(key).append(", ")
                         .append(nestedVar).append(" -> {\n");
-                appendObjectDsl(source, nested, nestedVar, indent + 1, visiting);
-                source.append(processor.spaces(indent)).append("});\n");
+                appendObjectDsl(source, nested, nestedVar, indent + 2, visiting);
+                source.append(processor.spaces(indent + 1)).append("});\n");
             }
+            source.append(processor.spaces(indent)).append("});\n");
             return;
         }
         if (processor.hasScalarType(type) || processor.isEnum(type)) {
@@ -242,7 +246,7 @@ final class PactDslSourceGenerator {
             };
             source.append(processor.spaces(indent)).append(variable).append('.').append(method)
                     .append(nestedVar).append(" -> {\n");
-            appendArrayElementDsl(source, elementType, nestedVar, indent + 1, visiting, field);
+            appendArrayItemContentsDsl(source, elementType, nestedVar, indent + 1, visiting, field);
             source.append(processor.spaces(indent)).append("});\n");
             return;
         }
@@ -285,6 +289,36 @@ final class PactDslSourceGenerator {
         }
         TypeElement nested = (TypeElement) ((DeclaredType) type).asElement();
         appendObjectDsl(source, nested, variable, indent, visiting);
+    }
+
+    private void appendArrayItemContentsDsl(
+            StringBuilder source,
+            TypeMirror arrayType,
+            String variable,
+            int indent,
+            Set<String> visiting,
+            VariableElement field) {
+        TypeMirror elementType = processor.arrayElementType(arrayType);
+        if (processor.hasScalarType(elementType) || processor.isEnum(elementType)) {
+            source.append(processor.spaces(indent))
+                    .append(rootArrayScalarCall(variable, elementType, field)).append('\n');
+            return;
+        }
+        if (processor.isArrayLike(elementType)) {
+            String innerVariable = "inner" + indent;
+            String method = elementType.getKind() == TypeKind.ARRAY ? "array" : "eachArrayLike";
+            source.append(processor.spaces(indent)).append(variable).append('.').append(method)
+                    .append('(').append(innerVariable).append(" -> {\n");
+            appendArrayItemContentsDsl(source, elementType, innerVariable, indent + 1, visiting, field);
+            source.append(processor.spaces(indent)).append("});\n");
+            return;
+        }
+        TypeElement nested = (TypeElement) ((DeclaredType) elementType).asElement();
+        String itemVariable = "nestedItem" + indent;
+        source.append(processor.spaces(indent)).append(variable).append(".object(").append(itemVariable)
+                .append(" -> {\n");
+        appendObjectDsl(source, nested, itemVariable, indent + 1, visiting);
+        source.append(processor.spaces(indent)).append("});\n");
     }
 
     private void appendRootArrayDsl(StringBuilder source, VariableElement field, String variable, int indent) {
@@ -331,6 +365,8 @@ final class PactDslSourceGenerator {
                         : PactMatcherKind.NUMBER_TYPE;
             } else if (processor.isUuid(type)) {
                 kind = PactMatcherKind.UUID;
+            } else if (processor.isDateType(type)) {
+                kind = processor.temporalMatcherKind(type, field);
             } else {
                 kind = PactMatcherKind.EQUALS;
             }
@@ -455,7 +491,7 @@ final class PactDslSourceGenerator {
                     .map(example -> arrayContainsExpectedExpression(type, example))
                     .collect(java.util.stream.Collectors.joining(", "));
         }
-        int count = exampleCount(field);
+        int count = depth == 0 ? exampleCount(field) : 1;
         List<String> values = new ArrayList<>();
         for (int index = 0; index < count; index++) {
             values.add(expectedExpression(type, field, depth + 1));

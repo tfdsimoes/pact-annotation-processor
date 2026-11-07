@@ -95,11 +95,13 @@ class PactDslProcessorGenerationTest extends PactDslProcessorTestSupport {
         assertTrue(source.contains("body.id(\"numericId\""));
         assertTrue(source.contains("body.object(\"address\""));
         assertTrue(source.contains("body.minArrayLike(\"tags\", 2"));
-        assertTrue(source.contains("body.eachValueLike(\"sku-1\""));
+        assertTrue(source.contains("body.object(\"quantities\""));
+        assertTrue(source.contains("map3.eachValueLike(\"sku-1\""));
         assertTrue(source.contains("body.stringMatcher(\"reference\""));
         assertTrue(source.contains("body.ipV4Address(\"ip\")"));
         assertTrue(source.contains("body.nullValue(\"nullable\")"));
         assertTrue(source.contains("body.eachArrayLike(\"coordinates\""));
+        assertTrue(source.contains("item3.integerType((long) 1L)"));
         assertTrue(source.contains("body.eachArrayLike(\"matrix\""));
         assertTrue(source.contains("body.minArrayLike(\"retries\", 2"));
         assertTrue(source.contains("buildExpectedInstance()"));
@@ -110,6 +112,10 @@ class PactDslProcessorGenerationTest extends PactDslProcessorTestSupport {
         assertNotNull(body.getBody());
         assertTrue(body.getMatchers().isNotEmpty());
         assertTrue(hasMatcher(body, "RegexMatcher"));
+        assertEquals(1, body.getBody().get("quantities").get("sku-1").asNumber().intValue());
+        assertEquals(1, body.getBody().get("coordinates").asArray().get(0).asArray().get(0).asNumber().intValue());
+        assertEquals(1, body.getBody().get("matrix").asArray().get(0).asArray().get(0).asNumber().intValue());
+        assertEquals("example", body.getBody().get("metadata").get("id-1").get("city").asString());
 
         Object expected = builderClass.getMethod("buildExpectedInstance").invoke(builder);
         assertEquals("example", publicField(expected, "id").get(expected));
@@ -234,6 +240,9 @@ class PactDslProcessorGenerationTest extends PactDslProcessorTestSupport {
             Object builder = builderClass.getConstructor().newInstance();
             DslPart body = (DslPart) builderClass.getMethod("build").invoke(builder);
             assertNotNull(body.getBody());
+            if (builderName.equals("ArrayDatesBuilder")) {
+                assertTrue(hasMatcher(body, "DateMatcher"));
+            }
             Object expected = builderClass.getMethod("buildExpectedInstance").invoke(builder);
             assertNotNull(publicField(expected, "values").get(expected));
         }

@@ -62,6 +62,7 @@ class PactDslProcessorIntegrationTest extends PactDslProcessorTestSupport {
         Object builder = builderClass.getConstructor().newInstance();
         DslPart body = (DslPart) builderClass.getMethod("build").invoke(builder);
         assertNotNull(body.getBody());
+        assertEquals(1, body.getBody().get("quantities").get("sku-1").asNumber().intValue());
         Object expected = builderClass.getMethod("buildExpectedInstance").invoke(builder);
         assertEquals(Map.of("sku-1", 1), publicField(expected, "quantities").get(expected));
         assertEquals(java.time.LocalDate.of(2024, 1, 2), publicField(expected, "created").get(expected));

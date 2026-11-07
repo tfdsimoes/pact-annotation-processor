@@ -8,8 +8,9 @@ import java.lang.annotation.Target;
 /**
  * Source-retained field annotation supplying an explicit example for a supported model property.
  *
- * <p>For temporal fields, {@link #format()} overrides the type-specific default pattern. A matcher
- * example supplied by {@link PactMatcher} takes precedence when both annotations are present.
+ * <p>For temporal fields, {@link #format()} overrides the type-specific default pattern. If both
+ * this annotation and {@link PactMatcher#example()} supply an example, their values must agree;
+ * conflicting values are reported as compile-time errors.
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.SOURCE)

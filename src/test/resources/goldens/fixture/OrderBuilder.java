@@ -36,7 +36,9 @@ public final class OrderBuilder {
       body.eachLike("categories", PactDslJsonRootValue.stringType("example"));
       body.eachLike("numbers", PactDslJsonRootValue.integerType((long) 1L));
       body.minArrayLike("retries", 2, PactDslJsonRootValue.integerType((long) 1L), 2);
-      body.eachValueLike("sku-1", PactDslJsonRootValue.integerType((long) 1L));
+      body.object("quantities", map3 -> {
+        map3.eachValueLike("sku-1", PactDslJsonRootValue.integerType((long) 1L));
+      });
       body.stringMatcher("reference", "[A-Z]{2}-[0-9]+", "AB-42");
       body.ipV4Address("ip");
       body.getPactDslObject().hexValue("checksum", "AB12");
@@ -51,19 +53,17 @@ public final class OrderBuilder {
         item3.stringType("city", "example");
         item3.integerType("number", (int) (long) 1);
       });
-      body.eachValueLike("id-1", value3 -> {
-        value3.stringType("city", "example");
-        value3.integerType("number", (int) (long) 1);
+      body.object("metadata", map3 -> {
+        map3.eachValueLike("id-1", value3 -> {
+          value3.stringType("city", "example");
+          value3.integerType("number", (int) (long) 1);
+        });
       });
       body.eachArrayLike("coordinates", item3 -> {
-        item3.array(inner -> {
-          inner.integerType((long) 1L);
-        });
+        item3.integerType((long) 1L);
       });
       body.eachArrayLike("matrix", item3 -> {
-        item3.eachArrayLike(inner -> {
-          inner.integerType((long) 1L);
-        });
+        item3.integerType((long) 1L);
       });
     }).build();
   }

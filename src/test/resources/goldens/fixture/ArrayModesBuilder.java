@@ -16,9 +16,7 @@ public final class ArrayModesBuilder {
       body.unorderedMaxArray("unorderedMaximum", 4, array -> array.eachLike(PactDslJsonRootValue.stringType("example")));
       body.unorderedMinMaxArray("unorderedBounded", 1, 3, array -> array.eachLike(PactDslJsonRootValue.stringType("example")));
       body.unorderedMinArray("nested", 2, item3 -> {
-        item3.array(inner -> {
-          inner.integerType((long) 1L);
-        });
+        item3.integerType((long) 1L);
       });
     }).build();
   }
@@ -36,7 +34,7 @@ public final class ArrayModesBuilder {
     result.unorderedMinimum = java.util.Arrays.asList("example", "example");
     result.unorderedMaximum = java.util.Arrays.asList("example");
     result.unorderedBounded = java.util.Arrays.asList("example");
-    result.nested = new int[][]{new int[]{1, 1}, new int[]{1, 1}};
+    result.nested = new int[][]{new int[]{1}, new int[]{1}};
     return result;
   }
 

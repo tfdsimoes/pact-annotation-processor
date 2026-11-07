@@ -183,6 +183,10 @@ class PactDslProcessorArrayMatcherTest extends PactDslProcessorTestSupport {
         assertNotNull(body.getBody());
         assertTrue(body.getMatchers().isNotEmpty());
         assertTrue(hasMatcher(body, "MinTypeMatcher"));
+        Object expected = builderClass.getMethod("buildExpectedInstance").invoke(builder);
+        int[][] nested = (int[][]) publicField(expected, "nested").get(expected);
+        assertEquals(2, nested.length);
+        assertEquals(1, nested[0].length);
     }
 
     @Test
